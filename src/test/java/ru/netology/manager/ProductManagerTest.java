@@ -3,10 +3,13 @@ package ru.netology.manager;
 import ru.netology.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.repository.ProductRepository;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductManagerTest {
-    private ProductManager manager = new ProductManager();
+    private ProductManager manager = new ProductManager(ProductRepository);
+    private ProductRepository repository = new ProductRepository();
     Book first = new Book(1, "Real Boys", 899,"G.Mathew");
     Book second = new Book(2, "Lolita", 1500, "V.Nabokov");
     Book third = new Book(3, "Poems", 460, "A.Bartho");
@@ -75,5 +78,13 @@ public class ProductManagerTest {
         Product[] expected = new Product[]{first, second, third, fifth, sixth};
         Product[] actual = manager.getAll();
         assertArrayEquals(expected, actual);
+    }
+    @Test
+    void shouldReturnAllSatisfyingCondition () {
+        String text = "SPM#1";
+        manager.searchBy(text);
+        Product[] expected = new Product[]{fourth, fifth};
+        Product[] actual = manager.searchBy(text);
+
     }
 }
