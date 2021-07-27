@@ -8,8 +8,8 @@ import ru.netology.repository.ProductRepository;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductManagerTest {
-    private ProductManager manager = new ProductManager(ProductRepository);
     private ProductRepository repository = new ProductRepository();
+    private ProductManager manager = new ProductManager(repository);
     Book first = new Book(1, "Real Boys", 899,"G.Mathew");
     Book second = new Book(2, "Lolita", 1500, "V.Nabokov");
     Book third = new Book(3, "Poems", 460, "A.Bartho");
@@ -85,6 +85,16 @@ public class ProductManagerTest {
         manager.searchBy(text);
         Product[] expected = new Product[]{fourth, fifth};
         Product[] actual = manager.searchBy(text);
+    }
 
+    @Test
+    void shouldReturnNotExistProduct() {
+        Gelato seventh = new Gelato(7, "Rainbow", 98, "berry");
+        manager.add(seventh);
+        String text = "berry";
+        Product[] expected = new Product[0];
+        Product[] actual = manager.searchBy(text);
+        assertArrayEquals(expected, actual);
+        System.out.println("No such product");
     }
 }
